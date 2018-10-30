@@ -25,7 +25,7 @@ class CompraTest {
 	@Test
 	void testCreate() throws Exception {
 		Compra compra = Compra.Create("compraTest", 9.99);
-		assertEquals(compra.getId(), 8);
+		assertEquals(compra.getId(), 11);
 		assertEquals(compra.getNombre(), "compraTest");
 		assertEquals(compra.getImporte(), 9.99);
 	}

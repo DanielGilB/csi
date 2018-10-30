@@ -54,6 +54,12 @@ public class Compra{
 		return super.toString() + ":" + _iId + ":" + _sNombre + ":" + _dImporte; 
 	}
 	
+	/**
+	 * @param sNombre
+	 * @param dImporte
+	 * @return
+	 * @throws Exception
+	 */
 	public static Compra Create(String sNombre, double dImporte) throws Exception{
 		
 		Connection con = null;
@@ -63,12 +69,11 @@ public class Compra{
 	    
 	    try {  	
 	        con = Data.Connection();
-	        int iId = Data.LastId(con) + 1;
 	        stmt = (Statement) con.createStatement();
 
-	        stmt.executeUpdate("INSERT INTO compras (id, nombre, importe) VALUES ("+ iId + ", " + sNombre + ", " + dImporte + ")" );
+	        stmt.executeUpdate("INSERT INTO compras (nombre, importe) VALUES (" + sNombre + ", " + dImporte + ")" );
 	        
-	        return new Compra(iId);
+	        return new Compra(Data.LastId(con));
 	    }
 	    catch (SQLException ee) { throw ee; }
 	    finally {

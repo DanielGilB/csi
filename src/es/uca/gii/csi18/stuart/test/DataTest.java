@@ -38,7 +38,6 @@ class DataTest {
 	        //assertEquals(3, rs.getMetaData().getColumnCount());
 	        //assertEquals(2, i);
 	        
-	        
 	    }
 	    catch (SQLException ee) { throw ee; }
 	    finally {
