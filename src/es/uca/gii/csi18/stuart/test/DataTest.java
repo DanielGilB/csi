@@ -27,7 +27,7 @@ class DataTest {
 	    
 	    try {  	
 	        con = Data.Connection();
-	        rs = con.createStatement().executeQuery("SELECT * FROM compras;");
+	        rs = con.createStatement().executeQuery("SELECT * FROM compra;");
 	        
 	        int i = 0;	        
 	        while (rs.next()) {	        	

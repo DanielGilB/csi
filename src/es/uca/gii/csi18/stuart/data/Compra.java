@@ -21,7 +21,7 @@ public class Compra{
 	    
 	    try {  	
 	        con = Data.Connection();
-	        rs = con.createStatement().executeQuery("SELECT * FROM compras WHERE ID = " + iId);
+	        rs = con.createStatement().executeQuery("SELECT * FROM compra WHERE ID = " + iId);
 	        rs.next();   
 	        
 	        _iId = iId;
@@ -71,7 +71,7 @@ public class Compra{
 	        con = Data.Connection();
 	        stmt = (Statement) con.createStatement();
 
-	        stmt.executeUpdate("INSERT INTO compras (nombre, importe) VALUES (" + sNombre + ", " + dImporte + ")" );
+	        stmt.executeUpdate("INSERT INTO compra (nombre, importe) VALUES (" + sNombre + ", " + dImporte + ")" );
 	        
 	        return new Compra(Data.LastId(con));
 	    }
