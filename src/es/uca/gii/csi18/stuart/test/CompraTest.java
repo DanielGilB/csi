@@ -48,8 +48,8 @@ class CompraTest {
 	    
 	    try {  	
 	    	 con = Data.Connection();
-		     rs = con.createStatement().executeQuery("SELECT nombre, importe FROM compra WHERE id = "
-		    	+ compra.getId());
+		     rs = con.createStatement().executeQuery("SELECT nombre, importe FROM compra "
+		     		+ "WHERE id = " + compra.getId());
 		     rs.next();
 		     
 		    assertEquals(sNombre, rs.getString("nombre"));

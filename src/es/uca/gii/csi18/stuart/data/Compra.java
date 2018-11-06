@@ -114,9 +114,9 @@ public class Compra{
 		    try {  	
 		        con = Data.Connection();
 		        stmt = (Statement) con.createStatement();
-		        
-		        stmt.executeUpdate("UPDATE compra SET nombre = " + _sNombre + ", importe = " + _dImporte +
-		        		" WHERE id = " + _iId );
+		        String sNombre = Data.String2Sql(_sNombre, true, false);
+		        stmt.executeUpdate("UPDATE compra SET nombre = " + sNombre + 
+		        		", importe = " + _dImporte + " WHERE id = " + _iId );
 		    }
 		    catch (SQLException ee) { throw ee; }
 		    finally {
@@ -128,7 +128,7 @@ public class Compra{
 	
 	public static ArrayList<Compra> Select (String sNombre, Double dImporte) throws Exception {
 		
-		ArrayList aCompra = new ArrayList<Compra>();
+		ArrayList<Compra> aCompra = new ArrayList<Compra>();
 		Connection con = null;
 		ResultSet rs = null;
 	    
@@ -136,9 +136,11 @@ public class Compra{
 	    	 con = Data.Connection();
 	    	 sNombre = Data.String2Sql(sNombre, true, false);
 		     rs = con.createStatement().executeQuery("SELECT nombre, importe "
-		     		+ "FROM compra" + Where(sNombre, dImporte));
-	         aCompra.add(rs);
-	         return aCompra;
+		    		 + "FROM compra" + Where(sNombre, dImporte));
+		     while(rs.next())
+		    	 aCompra.add(new Compra(rs.getInt("id")));
+	         
+		     return aCompra;
 	    }
 	    catch (SQLException ee) { throw ee; }
 	    finally {
