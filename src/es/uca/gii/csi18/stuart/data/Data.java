@@ -28,35 +28,28 @@ public class Data {
     }
     
     public static void LoadDriver() throws InstantiationException, IllegalAccessException, 
-            ClassNotFoundException, IOException {
+    	ClassNotFoundException, IOException {
     	
     	Class.forName(Config.Properties(Data.getPropertiesUrl()).getProperty(
-    			"jdbc.driverClassName")).newInstance();
-    }
-    
+    		"jdbc.driverClassName")).newInstance();
+    }    
     
     public static String String2Sql(String s, boolean bAddQuotes, boolean bAddWildcards) {
     	
     	s = s.replace("'", "''");
     	
-    	if( !bAddQuotes && !bAddWildcards) {	
-    		return s;
-    	}else if(bAddQuotes && !bAddWildcards) {
+    	if(bAddQuotes && !bAddWildcards)
     		s = "'" + s + "'";
-    		return s;
-    	}else if(!bAddQuotes && bAddWildcards) {
+    	else if(!bAddQuotes && bAddWildcards)
     		s = "%" + s + "%";
-    		return s;
-    	}else{
-    		// (bAddQuotes && bAddWildcards)
+    	else if(bAddQuotes && bAddWildcards)
     		s = "'%" + s + "%'";
-    		return s;
-    	}
+    	
+    	return s;	
     }
     
     public static int Boolean2Sql(boolean b) { return (b) ? 1 : 0; }
     
-
     public static int LastId(Connection con) throws Exception { 
     	ResultSet rs = null;
     	try {

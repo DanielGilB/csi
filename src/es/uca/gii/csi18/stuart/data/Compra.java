@@ -1,9 +1,11 @@
 package es.uca.gii.csi18.stuart.data;
 
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
+import org.omg.CosNaming._BindingIteratorStub;
 
 import com.mysql.jdbc.Statement;
 
@@ -12,7 +14,7 @@ public class Compra{
 	private int _iId;
 	private String _sNombre;
 	private double _dImporte;
-	
+	private boolean _bIsDeleted = false;
 	
 	public Compra(int iId) throws Exception {
 		
@@ -36,19 +38,15 @@ public class Compra{
 	    }
 	}
 	
-	
 	public double getId() { return _iId; }
 	
 	public String getNombre() { return _sNombre; }
 	
 	public double getImporte() { return _dImporte; }
 	
-	
-
 	public void setNombre(String sNombre) { _sNombre = sNombre; }
 	
 	public void setImporte(double dImporte) { _dImporte = dImporte; }
-	
 	
 	public String toString() {
 		return super.toString() + ":" + _iId + ":" + _sNombre + ":" + _dImporte; 
@@ -65,8 +63,7 @@ public class Compra{
 		Connection con = null;
 		Statement stmt = null;
 	    sNombre = Data.String2Sql(sNombre, true, false);
-	    
-	    
+	     
 	    try {  	
 	        con = Data.Connection();
 	        stmt = (Statement) con.createStatement();
@@ -80,5 +77,86 @@ public class Compra{
 	    	if (stmt != null) stmt.close();
 	    	if (con != null) con.close();
 	    }
+	}
+	
+	
+	/**
+	 * Eliminar instancia.
+	 * @throws Exception
+	 */
+	public void Delete() throws Exception{
+	    
+		Connection con = null;
+		Statement stmt = null;
+		
+		if(!_bIsDeleted) {
+			_bIsDeleted = true;
+		    try {  	
+		        con = Data.Connection();
+		        stmt = (Statement) con.createStatement();
+		        
+		        stmt.executeUpdate("DELETE FROM compra WHERE id = " + _iId);
+		    }
+		    catch (SQLException ee) { throw ee; }
+		    finally {
+		    	if (stmt != null) stmt.close();
+		    	if (con != null) con.close();
+		    }
+		} else throw new Exception("La compra ya está eliminada.");
+	}
+	
+	public void Update() throws Exception{
+	    
+		Connection con = null;
+		Statement stmt = null;
+		
+		if(!_bIsDeleted) {
+		    try {  	
+		        con = Data.Connection();
+		        stmt = (Statement) con.createStatement();
+		        
+		        stmt.executeUpdate("UPDATE compra SET nombre = " + _sNombre + ", importe = " + _dImporte +
+		        		" WHERE id = " + _iId );
+		    }
+		    catch (SQLException ee) { throw ee; }
+		    finally {
+		    	if (stmt != null) stmt.close();
+		    	if (con != null) con.close();
+		    }
+		} else throw new Exception("La compra está eliminada.");
+	}
+	
+	public static ArrayList<Compra> Select (String sNombre, Double dImporte) throws Exception {
+		
+		ArrayList aCompra = new ArrayList<Compra>();
+		Connection con = null;
+		ResultSet rs = null;
+	    
+	    try {  	
+	    	 con = Data.Connection();
+	    	 sNombre = Data.String2Sql(sNombre, true, false);
+		     rs = con.createStatement().executeQuery("SELECT nombre, importe "
+		     		+ "FROM compra" + Where(sNombre, dImporte));
+	         aCompra.add(rs);
+	         return aCompra;
+	    }
+	    catch (SQLException ee) { throw ee; }
+	    finally {
+	    	if (rs != null) rs.close();
+	    	if (con != null) con.close();
+	    }
+	}
+	
+	private static String Where(String sNombre, Double dImporte) {
+		
+		String sQuery = "";
+		
+		if(sNombre != null) sQuery += "nombre LIKE " + sNombre + " and ";
+		if(dImporte != null) sQuery += "importe = " + dImporte + " and ";
+		
+		if(sQuery != null) 
+			sQuery = " WHERE " + sQuery.substring(0, sQuery.length()-5);
+			
+		return sQuery;
 	}
 }
