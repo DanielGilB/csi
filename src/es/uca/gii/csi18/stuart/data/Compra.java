@@ -166,7 +166,7 @@ public class Compra{
 		
 		if(sQuery != null) 
 			sQuery = " WHERE " + sQuery.substring(0, sQuery.length()-5);
-
+		
 		return sQuery;
 	}
 }
