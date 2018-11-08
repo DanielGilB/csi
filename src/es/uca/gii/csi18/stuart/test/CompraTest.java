@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -67,12 +68,77 @@ class CompraTest {
 	@Test
 	void testSelect() throws Exception {
 		
+		String sNombre = "testSelect";
+		double dImporte = 6.66;
+		Compra compra = Compra.Create(sNombre, dImporte);
+		ArrayList aCompra = new ArrayList<Compra>();
+		Connection con = null;
+		ResultSet rs = null;
+		
+	    try { 
+	    	 con = Data.Connection();
+	    	 sNombre = Data.String2Sql(sNombre, true, false);
+	    	 
+		     rs = con.createStatement().executeQuery("SELECT nombre, importe "
+		    		 + "FROM compra WHERE nombre LIKE " + sNombre);
+		     int iFilas = 0;
+		     while(rs.next())
+		    	 iFilas++;
+		     assertEquals(iFilas, Compra.Select(sNombre, null).size());
+		     rs.close();
+		     
+		     rs = con.createStatement().executeQuery("SELECT nombre, importe "
+		    		 + "FROM compra WHERE nombre LIKE " + sNombre + " AND importe = " +dImporte);
+		     iFilas = 0;
+		     while(rs.next())
+		    	 iFilas++;
+		     assertEquals(iFilas, Compra.Select(sNombre, dImporte).size());
+		     rs.close();
+		    
+		     rs = con.createStatement().executeQuery("SELECT nombre, importe "
+		    		 + "FROM compra WHERE importe = " +dImporte);
+		     iFilas = 0;
+		     while(rs.next())
+		    	 iFilas++;
+		     assertEquals(iFilas, Compra.Select(null, dImporte).size());
+		     rs.close();
+		     
+		     rs = con.createStatement().executeQuery("SELECT nombre, importe "
+		    		 + "FROM compra");
+		     iFilas = 0;
+		     while(rs.next())
+		    	 iFilas++;
+		     assertEquals(iFilas, Compra.Select(null, null).size());
+		     rs.close(); 
+	    }
+	    catch (SQLException ee) { throw ee; }
+	    finally {
+	    	if (rs != null) rs.close();
+	    	if (con != null) con.close();
+	    }
 	}
 	
 	@Test
 	void testDelete() throws Exception {
-		Compra compra = Compra.Create("Pepe", 5.5);
+		Compra compra = Compra.Create("Pepe", 1.11);
+		int iId = compra.getId();
+		assertEquals(false, compra.getIsDeleted());
 		compra.Delete();
-		//assertEquals(expected, actual);
+		assertEquals(true, compra.getIsDeleted());
+		
+		Connection con = null;
+		ResultSet rs = null;
+		
+		try {
+			con = Data.Connection();
+			rs = con.createStatement().executeQuery("SELECT nombre, importe FROM "
+					+ "compra WHERE id = " + iId + "");
+			assertEquals(rs.next(), false);
+		}
+		catch (SQLException ee) { throw ee; }
+	    finally {
+	    	if (rs != null) rs.close();
+	    	if (con != null) con.close();
+	    }
 	}
 }

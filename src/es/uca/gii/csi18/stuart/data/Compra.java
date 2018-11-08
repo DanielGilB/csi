@@ -23,7 +23,7 @@ public class Compra{
 	    
 	    try {  	
 	        con = Data.Connection();
-	        rs = con.createStatement().executeQuery("SELECT * FROM compra WHERE ID = " + iId);
+	        rs = con.createStatement().executeQuery("SELECT nombre, importe FROM compra WHERE ID = " + iId);
 	        rs.next();   
 	        
 	        _iId = iId;
@@ -38,11 +38,13 @@ public class Compra{
 	    }
 	}
 	
-	public double getId() { return _iId; }
+	public int getId() { return _iId; }
 	
 	public String getNombre() { return _sNombre; }
 	
 	public double getImporte() { return _dImporte; }
+	
+	public boolean getIsDeleted() { return _bIsDeleted; }
 	
 	public void setNombre(String sNombre) { _sNombre = sNombre; }
 	
@@ -128,17 +130,17 @@ public class Compra{
 	
 	public static ArrayList<Compra> Select (String sNombre, Double dImporte) throws Exception {
 		
-		ArrayList<Compra> aCompra = new ArrayList<Compra>();
+		ArrayList aCompra = new ArrayList<Compra>();
 		Connection con = null;
 		ResultSet rs = null;
 	    
 	    try {  	
 	    	 con = Data.Connection();
-	    	 sNombre = Data.String2Sql(sNombre, true, false);
+	    	 //sNombre = Data.String2Sql(sNombre, true, false);
 		     rs = con.createStatement().executeQuery("SELECT nombre, importe "
 		    		 + "FROM compra" + Where(sNombre, dImporte));
 		     while(rs.next())
-		    	 aCompra.add(new Compra(rs.getInt("id")));
+		    	 aCompra.add(rs);
 	         
 		     return aCompra;
 	    }
@@ -153,12 +155,18 @@ public class Compra{
 		
 		String sQuery = "";
 		
-		if(sNombre != null) sQuery += "nombre LIKE " + sNombre + " and ";
-		if(dImporte != null) sQuery += "importe = " + dImporte + " and ";
+		if(sNombre != null) 
+			if(sNombre.contains("%") || sNombre.contains("?"))
+				sQuery += "nombre = " + sNombre + " and ";
+			else
+				sQuery += "nombre LIKE " + sNombre + " and ";
+		
+		if(dImporte != null) 
+			sQuery += "importe = " + dImporte + " and ";
 		
 		if(sQuery != null) 
 			sQuery = " WHERE " + sQuery.substring(0, sQuery.length()-5);
-			
+
 		return sQuery;
 	}
 }

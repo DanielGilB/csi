@@ -31,7 +31,7 @@ class DataTest {
 	              
 	        while (rs.next()) {	        	
 	        	System.out.println(rs.getString("id") + " " + rs.getString("nombre") 
-	        		+ " " + rs.getString("importe"));
+	        		+ " " + rs.getDouble("importe"));
 	        }
 	        
 	        //assertEquals(3, rs.getMetaData().getColumnCount());
