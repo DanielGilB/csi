@@ -130,17 +130,18 @@ public class Compra{
 	
 	public static ArrayList<Compra> Select (String sNombre, Double dImporte) throws Exception {
 		
-		ArrayList aCompra = new ArrayList<Compra>();
+		ArrayList<Compra> aCompra = new ArrayList<Compra>();
 		Connection con = null;
 		ResultSet rs = null;
 	    
 	    try {  	
 	    	 con = Data.Connection();
 	    	 //sNombre = Data.String2Sql(sNombre, true, false);
-		     rs = con.createStatement().executeQuery("SELECT nombre, importe "
-		    		 + "FROM compra" + Where(sNombre, dImporte));
+			 rs = con.createStatement().executeQuery("SELECT id nombre, importe "
+		   		 + "FROM compra" + Where(sNombre, dImporte));
+
 		     while(rs.next())
-		    	 aCompra.add(rs);
+		    	 aCompra.add(new Compra(rs.getInt("id")));
 	         
 		     return aCompra;
 	    }
@@ -154,7 +155,7 @@ public class Compra{
 	private static String Where(String sNombre, Double dImporte) {
 		
 		String sQuery = "";
-		
+
 		if(sNombre != null) 
 			if(sNombre.contains("%") || sNombre.contains("?"))
 				sQuery += "nombre = " + sNombre + " and ";
@@ -164,7 +165,7 @@ public class Compra{
 		if(dImporte != null) 
 			sQuery += "importe = " + dImporte + " and ";
 		
-		if(sQuery != null) 
+		if(!sQuery.isEmpty()) 
 			sQuery = " WHERE " + sQuery.substring(0, sQuery.length()-5);
 		
 		return sQuery;
