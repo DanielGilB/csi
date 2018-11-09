@@ -38,14 +38,11 @@ public class Data {
     	
     	s = s.replace("'", "''");
     	
-    	if(bAddQuotes && !bAddWildcards)
-    		s = "'" + s + "'";
-    	else if(!bAddQuotes && bAddWildcards)
-    		s = "%" + s + "%";
-    	else if(bAddQuotes && bAddWildcards)
-    		s = "'%" + s + "%'";
-    	
-    	return s;	
+		if(bAddWildcards)
+			s = "%" + s + "%";
+		if(bAddQuotes)
+			s = "'" + s + "'";
+		return s;
     }
     
     public static int Boolean2Sql(boolean b) { return (b) ? 1 : 0; }

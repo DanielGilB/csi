@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import es.uca.gii.csi18.stuart.data.Compra;
 import es.uca.gii.csi18.stuart.data.Data;
 
 class DataTest {

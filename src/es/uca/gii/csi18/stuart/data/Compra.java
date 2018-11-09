@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.omg.CosNaming._BindingIteratorStub;
+
 
 import com.mysql.jdbc.Statement;
 
@@ -134,15 +134,14 @@ public class Compra{
 		Connection con = null;
 		ResultSet rs = null;
 	    
+		if(sNombre != null) sNombre = Data.String2Sql(sNombre, true, false);
 	    try {  	
 	    	 con = Data.Connection();
-	    	 //sNombre = Data.String2Sql(sNombre, true, false);
-			 rs = con.createStatement().executeQuery("SELECT id nombre, importe "
-		   		 + "FROM compra" + Where(sNombre, dImporte));
-
+		     rs = con.createStatement().executeQuery("SELECT id, nombre, importe "
+		    		 + "FROM compra " + Where(sNombre, dImporte));
 		     while(rs.next())
 		    	 aCompra.add(new Compra(rs.getInt("id")));
-	         
+
 		     return aCompra;
 	    }
 	    catch (SQLException ee) { throw ee; }
