@@ -54,13 +54,10 @@ public class Compra{
 		return super.toString() + ":" + _iId + ":" + _sNombre + ":" + _dImporte; 
 	}
 	
-	/**
-	 * @param sNombre
-	 * @param dImporte
-	 * @return
-	 * @throws Exception
-	 */
 	public static Compra Create(String sNombre, double dImporte) throws Exception{
+		
+		if(sNombre.isEmpty() || sNombre == null)
+			throw new Exception("El nombre es un campo obligatorio");
 		
 		Connection con = null;
 		Statement stmt = null;
@@ -70,9 +67,31 @@ public class Compra{
 	        con = Data.Connection();
 	        stmt = (Statement) con.createStatement();
 
-	        stmt.executeUpdate("INSERT INTO compra (nombre, importe) VALUES (" + sNombre + ", " + dImporte + ")" );
+	        stmt.executeUpdate("INSERT INTO compra (nombre, importe) VALUES ("
+	        		+ sNombre + ", " + dImporte + ")" );
 	        
 	        return new Compra(Data.LastId(con));
+	    }
+	    catch (SQLException ee) { throw ee; }
+	    finally {
+	    	if (stmt != null) stmt.close();
+	    	if (con != null) con.close(); 
+	    }
+	}
+	
+	public void Delete() throws Exception{
+	    
+		if(_bIsDeleted)
+			throw new Exception("La compra está eliminada.");
+		
+		Connection con = null;
+		Statement stmt = null;
+		
+	    try {  	
+	        con = Data.Connection();
+	        stmt = (Statement) con.createStatement();
+	        stmt.executeUpdate("DELETE FROM compra WHERE id = " + _iId);
+	        _bIsDeleted = true;
 	    }
 	    catch (SQLException ee) { throw ee; }
 	    finally {
@@ -81,51 +100,28 @@ public class Compra{
 	    }
 	}
 	
-	
-	/**
-	 * Eliminar instancia.
-	 * @throws Exception
-	 */
-	public void Delete() throws Exception{
-	    
-		Connection con = null;
-		Statement stmt = null;
-		
-		if(!_bIsDeleted) {
-			_bIsDeleted = true;
-		    try {  	
-		        con = Data.Connection();
-		        stmt = (Statement) con.createStatement();
-		        
-		        stmt.executeUpdate("DELETE FROM compra WHERE id = " + _iId);
-		    }
-		    catch (SQLException ee) { throw ee; }
-		    finally {
-		    	if (stmt != null) stmt.close();
-		    	if (con != null) con.close();
-		    }
-		} else throw new Exception("La compra ya está eliminada.");
-	}
-	
 	public void Update() throws Exception{
 	    
+		if(_bIsDeleted) 
+			throw new Exception("La compra está eliminada.");
+		if(_sNombre.isEmpty() || _sNombre == null)
+			throw new Exception("El nombre es un campo obligatorio");
+		
 		Connection con = null;
 		Statement stmt = null;
 		
-		if(!_bIsDeleted) {
-		    try {  	
-		        con = Data.Connection();
-		        stmt = (Statement) con.createStatement();
-		        String sNombre = Data.String2Sql(_sNombre, true, false);
-		        stmt.executeUpdate("UPDATE compra SET nombre = " + sNombre + 
-		        		", importe = " + _dImporte + " WHERE id = " + _iId );
-		    }
-		    catch (SQLException ee) { throw ee; }
-		    finally {
-		    	if (stmt != null) stmt.close();
-		    	if (con != null) con.close();
-		    }
-		} else throw new Exception("La compra está eliminada.");
+		try {  	
+	        con = Data.Connection();
+	        stmt = (Statement) con.createStatement();
+	        String sNombre = Data.String2Sql(_sNombre, true, false);
+	        stmt.executeUpdate("UPDATE compra SET nombre = " + sNombre + 
+	        		", importe = " + _dImporte + " WHERE id = " + _iId );
+	    }
+	    catch (SQLException ee) { throw ee; }
+	    finally {
+	    	if (stmt != null) stmt.close();
+	    	if (con != null) con.close();
+	    }
 	}
 	
 	public static ArrayList<Compra> Select (String sNombre, Double dImporte) throws Exception {

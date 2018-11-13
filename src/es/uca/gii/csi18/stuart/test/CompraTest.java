@@ -141,4 +141,11 @@ class CompraTest {
 	    	if (con != null) con.close();
 	    }
 	}
+	
+	@Test
+	void aicardo() throws Exception{
+		Compra compra = Compra.Create("AICARDO", 0.01);
+		compra.Delete();
+		compra.Delete();
+	}
 }
