@@ -24,7 +24,8 @@ public class IfrCompra extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IfrCompra() {
+	public IfrCompra(Compra compra) {
+		_compra = compra;			
 		setResizable(true);
 		setClosable(true);
 		setTitle("Compra");
@@ -41,15 +42,21 @@ public class IfrCompra extends JInternalFrame {
 		getContentPane().add(txtNombre);
 		txtNombre.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("Importe");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel.setBounds(61, 111, 73, 14);
-		getContentPane().add(lblNewLabel);
+		JLabel lblImporte = new JLabel("Importe");
+		lblImporte.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblImporte.setBounds(61, 111, 73, 14);
+		getContentPane().add(lblImporte);
 		
 		txtImporte = new JTextField();
 		txtImporte.setBounds(153, 108, 86, 20);
 		getContentPane().add(txtImporte);
 		txtImporte.setColumns(10);
+		
+		if(_compra != null) {
+			txtNombre.setText(_compra.getNombre());
+			String dImporte = new Double (_compra.getImporte()).toString();
+			txtImporte.setText(dImporte);
+		}
 		
 		JButton butGuardar = new JButton("Guardar");
 		butGuardar.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -60,7 +67,7 @@ public class IfrCompra extends JInternalFrame {
 					String sNombre = txtNombre.getText();
 					if(_compra == null)
 						_compra = Compra.Create(sNombre, dImporte);
-					else {
+					else{
 						_compra.setNombre(sNombre);
 						_compra.setImporte(dImporte);
 						_compra.Update();

@@ -73,7 +73,7 @@ public class FrmMain {
 		mitNuevoCompra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				IfrCompra ifrCompra = new IfrCompra();
+				IfrCompra ifrCompra = new IfrCompra(null);
 				ifrCompra.setBounds(150, 50, 350, 300);
 				frame.getContentPane().add(ifrCompra);
 				ifrCompra.setVisible(true);
@@ -85,6 +85,14 @@ public class FrmMain {
 		menuBar.add(mitBuscar);
 		
 		JMenuItem mitBuscarCompra = new JMenuItem("Compra");
+		mitBuscarCompra.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IfrCompras ifrCompras = new IfrCompras(frame);
+				ifrCompras.setBounds(150, 50, 350, 350);
+				frame.getContentPane().add(ifrCompras, 0);
+				ifrCompras.setVisible(true);
+			}
+		});
 		mitBuscar.add(mitBuscarCompra);
 		frame.getContentPane().setLayout(null);
 	}
