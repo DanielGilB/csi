@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import es.uca.gii.csi18.stuart.data.Compra;
+import es.uca.gii.csi18.stuart.data.Descuento;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,6 +23,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JComboBox;
 
 public class IfrCompras extends JInternalFrame {
 	private JTextField txtNombre;
@@ -29,15 +31,13 @@ public class IfrCompras extends JInternalFrame {
 	private JTable tabResult;
 	private Container pnlParent;
 
-	/**
-	 * Create the frame.
-	 */
+	
 	public IfrCompras(Container frame) {
 		pnlParent = frame;
 		setClosable(true);
 		setResizable(true);
 		setTitle("Compras");
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 624, 373);
 		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
@@ -66,14 +66,29 @@ public class IfrCompras extends JInternalFrame {
 					Double dImporte = txtImporte.getText().isEmpty() ?
 							null : new Double(Double.parseDouble(txtImporte.getText()));
 				try {	
-					tabResult.setModel(new ComprasTableModel(Compra.Select(sNombre, dImporte)));
+					tabResult.setModel(new ComprasTableModel(Compra.Select(sNombre, dImporte, null)));
 				}catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "Existen campos incorrectos: " + e.getMessage(),
 							"Error", JOptionPane.ERROR_MESSAGE);
 				} 	
 			}
 		});
+		
+		JLabel lblDescuento = new JLabel("Descuento");
+		panel.add(lblDescuento);
+		
+		JComboBox<Descuento> cmbDescuento = new JComboBox();
+		cmbDescuento.setEditable(true);
+		panel.add(cmbDescuento);
 		panel.add(butBuscar);
+		
+		try {
+			cmbDescuento.setModel(new DescuentoListModel(Descuento.Select()));
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "No hay descuentos: " + e.getMessage(),
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}
+		
 		
 		tabResult = new JTable();
 		tabResult.addMouseListener(new MouseAdapter() {

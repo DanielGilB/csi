@@ -6,11 +6,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import es.uca.gii.csi18.stuart.data.Compra;
+import es.uca.gii.csi18.stuart.data.Descuento;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import javax.swing.JComboBox;
 
 public class IfrCompra extends JInternalFrame {
 	/**
@@ -38,7 +40,7 @@ public class IfrCompra extends JInternalFrame {
 		getContentPane().add(lblNombre);
 		
 		txtNombre = new JTextField();
-		txtNombre.setBounds(153, 62, 86, 20);
+		txtNombre.setBounds(153, 62, 249, 20);
 		getContentPane().add(txtNombre);
 		txtNombre.setColumns(10);
 		
@@ -52,10 +54,26 @@ public class IfrCompra extends JInternalFrame {
 		getContentPane().add(txtImporte);
 		txtImporte.setColumns(10);
 		
+		JLabel lblDescuento = new JLabel("Descuento");
+		lblDescuento.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblDescuento.setBounds(61, 158, 73, 14);
+		getContentPane().add(lblDescuento);
+		
+		JComboBox<Descuento> cmbDescuento = new JComboBox();
+		try {
+			cmbDescuento.setModel(new DescuentoListModel(Descuento.Select()));
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "No hay descuentos: " + e.getMessage(),
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}
+		cmbDescuento.setBounds(153, 157, 249, 20);
+		getContentPane().add(cmbDescuento);
+		
 		if(_compra != null) {
 			txtNombre.setText(_compra.getNombre());
 			String dImporte = new Double (_compra.getImporte()).toString();
 			txtImporte.setText(dImporte);
+			cmbDescuento.setSelectedIndex(_compra.getDescuento().getId());
 		}
 		
 		JButton butGuardar = new JButton("Guardar");
@@ -65,11 +83,15 @@ public class IfrCompra extends JInternalFrame {
 				try {
 					Double dImporte = Double.parseDouble(txtImporte.getText());
 					String sNombre = txtNombre.getText();
+					Descuento descuento = (Descuento) cmbDescuento.getModel().getSelectedItem();
+					
 					if(_compra == null)
-						_compra = Compra.Create(sNombre, dImporte);
+						_compra = Compra.Create(sNombre, dImporte, descuento);
 					else{
 						_compra.setNombre(sNombre);
 						_compra.setImporte(dImporte);
+						_compra.setDescuento(descuento);
+						// if( descuento != null)  _compra.Update(); else throw ERRORCITO 4.12 // creo que lo correcto sería hacerlo desde el metodo update
 						_compra.Update();
 					}
 					
@@ -79,8 +101,7 @@ public class IfrCompra extends JInternalFrame {
 				} 
 			}
 		});
-		butGuardar.setBounds(61, 175, 178, 23);
+		butGuardar.setBounds(61, 202, 178, 23);
 		getContentPane().add(butGuardar);
-
 	}
 }

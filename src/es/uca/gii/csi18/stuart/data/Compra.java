@@ -15,6 +15,7 @@ public class Compra{
 	private String _sNombre;
 	private double _dImporte;
 	private boolean _bIsDeleted = false;
+	private Descuento _descuento;
 	
 	public Compra(int iId) throws Exception {
 		
@@ -23,13 +24,13 @@ public class Compra{
 	    
 	    try {  	
 	        con = Data.Connection();
-	        rs = con.createStatement().executeQuery("SELECT nombre, importe FROM compra WHERE ID = " + iId);
+	        rs = con.createStatement().executeQuery("SELECT nombre, importe, id_descuento FROM compra WHERE ID = " + iId);
 	        rs.next();   
 	        
 	        _iId = iId;
 	        _sNombre = rs.getString("nombre");
 	        _dImporte = rs.getDouble("importe");
-
+	        _descuento = new Descuento(rs.getInt("id_descuento"));
 	    }
 	    catch (SQLException ee) { throw ee; }
 	    finally {
@@ -46,15 +47,19 @@ public class Compra{
 	
 	public boolean getIsDeleted() { return _bIsDeleted; }
 	
+	public Descuento getDescuento() { return _descuento; }
+	
 	public void setNombre(String sNombre) { _sNombre = sNombre; }
 	
 	public void setImporte(double dImporte) { _dImporte = dImporte; }
 	
+	public void setDescuento(Descuento descuento) { _descuento = descuento; }
+	
 	public String toString() {
-		return super.toString() + ":" + _iId + ":" + _sNombre + ":" + _dImporte; 
+		return super.toString() + ":" + _iId + ":" + _sNombre + ":" + _dImporte + ";" + _descuento.toString() ; 
 	}
 	
-	public static Compra Create(String sNombre, double dImporte) throws Exception{
+	public static Compra Create(String sNombre, double dImporte, Descuento descuento) throws Exception{
 		
 		if(sNombre.isEmpty() || sNombre == null)
 			throw new Exception("El nombre es un campo obligatorio");
@@ -67,8 +72,8 @@ public class Compra{
 	        con = Data.Connection();
 	        stmt = (Statement) con.createStatement();
 
-	        stmt.executeUpdate("INSERT INTO compra (nombre, importe) VALUES ("
-	        		+ sNombre + ", " + dImporte + ")" );
+	        stmt.executeUpdate("INSERT INTO compra (nombre, importe, id_descuento) VALUES ("
+	        		+ sNombre + ", " + dImporte + ", " + descuento + ")" );
 	        
 	        return new Compra(Data.LastId(con));
 	    }
@@ -115,7 +120,7 @@ public class Compra{
 	        stmt = (Statement) con.createStatement();
 	        String sNombre = Data.String2Sql(_sNombre, true, false);
 	        stmt.executeUpdate("UPDATE compra SET nombre = " + sNombre + 
-	        		", importe = " + _dImporte + " WHERE id = " + _iId );
+	        		", importe = " + _dImporte + ", id_descuento = " + _descuento.getId() + " WHERE id = " + _iId );
 	    }
 	    catch (SQLException ee) { throw ee; }
 	    finally {
@@ -124,17 +129,18 @@ public class Compra{
 	    }
 	}
 	
-	public static ArrayList<Compra> Select (String sNombre, Double dImporte) throws Exception {
+	public static ArrayList<Compra> Select (String sNombre, Double dImporte, String sDescuento) throws Exception {
 		
 		ArrayList<Compra> aCompra = new ArrayList<Compra>();
 		Connection con = null;
 		ResultSet rs = null;
 	    
 		if(sNombre != null) sNombre = Data.String2Sql(sNombre, true, false);
+		if(sDescuento != null) sNombre = Data.String2Sql(sDescuento, true, false);
 	    try {  	
 	    	 con = Data.Connection();
-		     rs = con.createStatement().executeQuery("SELECT id, nombre, importe "
-		    		 + "FROM compra " + Where(sNombre, dImporte));
+		     rs = con.createStatement().executeQuery("SELECT id, nombre, importe, id_descuento "
+		    		 + "FROM compra JOIN descuento ON descuento.id = compra.id_descuento " + Where(sNombre, dImporte, sDescuento));
 		     while(rs.next())
 		    	 aCompra.add(new Compra(rs.getInt("id")));
 
@@ -147,7 +153,7 @@ public class Compra{
 	    }
 	}
 	
-	private static String Where(String sNombre, Double dImporte) {
+	private static String Where(String sNombre, Double dImporte, String sDescuento) {
 		
 		String sQuery = "";
 
@@ -156,6 +162,12 @@ public class Compra{
 				sQuery += "nombre = " + sNombre + " and ";
 			else
 				sQuery += "nombre LIKE " + sNombre + " and ";
+		
+		if(sDescuento != null) 
+			if(sDescuento.contains("%") || sDescuento.contains("?"))
+				sQuery += "nombre = " + sDescuento + " and ";
+			else
+				sQuery += "nombre LIKE " + sDescuento + " and ";
 		
 		if(dImporte != null) 
 			sQuery += "importe = " + dImporte + " and ";

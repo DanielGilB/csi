@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import es.uca.gii.csi18.stuart.data.Compra;
 import es.uca.gii.csi18.stuart.data.Data;
+import es.uca.gii.csi18.stuart.data.Descuento;
 
 class CompraTest {
 
@@ -28,7 +29,8 @@ class CompraTest {
 
 	@Test
 	void testCreate() throws Exception {
-		Compra compra = Compra.Create("compraTest", 9.99);
+		Descuento descuento = new Descuento(1);
+		Compra compra = Compra.Create("compraTest", 9.99, descuento);
 		assertEquals(11, compra.getId());
 		assertEquals("compraTest", compra.getNombre());
 		assertEquals(9.99, compra.getImporte());
@@ -39,7 +41,8 @@ class CompraTest {
 		
 		String sNombre = "Dani";
 		double dImporte = 0.01;
-		Compra compra = Compra.Create("kike", 9.91);
+		Descuento descuento = new Descuento(1);
+		Compra compra = Compra.Create("kike", 9.91, descuento);
 		compra.setNombre(sNombre);
 		compra.setImporte(dImporte);
 		compra.Update();
@@ -75,14 +78,15 @@ class CompraTest {
 
         try { 
              con = Data.Connection();
-             Compra compra = Compra.Create(sNombre, dImporte);
+             Descuento descuento = new Descuento(1);
+             Compra compra = Compra.Create(sNombre, dImporte, descuento);
 
              rs = con.createStatement().executeQuery("SELECT nombre, importe "
                      + "FROM compra WHERE nombre LIKE " + Data.String2Sql(sNombre, true, false));
              int iFilas = 0;
              while(rs.next())
                  iFilas++;
-             assertEquals(iFilas, Compra.Select(sNombre, null).size());
+             assertEquals(iFilas, Compra.Select(sNombre, null, null).size());
              rs.close();
 
              rs = con.createStatement().executeQuery("SELECT nombre, importe "
@@ -90,7 +94,7 @@ class CompraTest {
              iFilas = 0;
              while(rs.next())
                  iFilas++;
-             assertEquals(iFilas, Compra.Select(sNombre, dImporte).size());
+             assertEquals(iFilas, Compra.Select(sNombre, dImporte, null).size());
              rs.close();
 
              rs = con.createStatement().executeQuery("SELECT nombre, importe "
@@ -98,7 +102,7 @@ class CompraTest {
              iFilas = 0;
              while(rs.next())
                  iFilas++;
-             assertEquals(iFilas, Compra.Select(null, dImporte).size());
+             assertEquals(iFilas, Compra.Select(null, dImporte, null).size());
              rs.close();
 
              rs = con.createStatement().executeQuery("SELECT nombre, importe "
@@ -106,7 +110,7 @@ class CompraTest {
              iFilas = 0;
              while(rs.next())
                  iFilas++;
-             assertEquals(iFilas, Compra.Select(null, null).size());
+             assertEquals(iFilas, Compra.Select(null, null, null).size());
              rs.close();
              
              compra.Delete();
@@ -120,7 +124,8 @@ class CompraTest {
 	
 	@Test
 	void testDelete() throws Exception {
-		Compra compra = Compra.Create("Pepe", 1.11);
+		Descuento descuento = new Descuento(1);
+		Compra compra = Compra.Create("Pepe", 1.11, descuento);
 		int iId = compra.getId();
 		assertEquals(false, compra.getIsDeleted());
 		compra.Delete();
@@ -142,10 +147,4 @@ class CompraTest {
 	    }
 	}
 	
-	@Test
-	void aicardo() throws Exception{
-		Compra compra = Compra.Create("AICARDO", 0.01);
-		compra.Delete();
-		compra.Delete();
-	}
 }
