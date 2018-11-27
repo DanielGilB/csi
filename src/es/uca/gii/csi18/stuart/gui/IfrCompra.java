@@ -73,7 +73,7 @@ public class IfrCompra extends JInternalFrame {
 			txtNombre.setText(_compra.getNombre());
 			String dImporte = new Double (_compra.getImporte()).toString();
 			txtImporte.setText(dImporte);
-			cmbDescuento.setSelectedIndex(_compra.getDescuento().getId());
+			cmbDescuento.setSelectedIndex(_compra.getDescuento().getId()); //aquí ponemos el descuento mediante su Id - no estoy seguro habria que probarlo en ejecucion
 		}
 		
 		JButton butGuardar = new JButton("Guardar");
@@ -83,7 +83,10 @@ public class IfrCompra extends JInternalFrame {
 				try {
 					Double dImporte = Double.parseDouble(txtImporte.getText());
 					String sNombre = txtNombre.getText();
-					Descuento descuento = (Descuento) cmbDescuento.getModel().getSelectedItem();
+					Descuento descuento = (Descuento) cmbDescuento.getSelectedItem(); // el cast no estoy seguro y puede que lanze el throw de abajo
+					
+					if(descuento == null)
+						throw new Exception("Selecciona un descuento");
 					
 					if(_compra == null)
 						_compra = Compra.Create(sNombre, dImporte, descuento);
@@ -91,7 +94,7 @@ public class IfrCompra extends JInternalFrame {
 						_compra.setNombre(sNombre);
 						_compra.setImporte(dImporte);
 						_compra.setDescuento(descuento);
-						// if( descuento != null)  _compra.Update(); else throw ERRORCITO 4.12 // creo que lo correcto sería hacerlo desde el metodo update
+						_compra.Update();
 						_compra.Update();
 					}
 					
