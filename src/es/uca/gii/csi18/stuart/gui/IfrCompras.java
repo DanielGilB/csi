@@ -37,7 +37,7 @@ public class IfrCompras extends JInternalFrame {
 		setClosable(true);
 		setResizable(true);
 		setTitle("Compras");
-		setBounds(100, 100, 624, 373);
+		setBounds(100, 100, 846, 353);
 		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
@@ -57,7 +57,21 @@ public class IfrCompras extends JInternalFrame {
 		panel.add(txtImporte);
 		txtImporte.setColumns(10);
 		
-		JButton butBuscar = new JButton("Buscar");
+		JLabel lblDescuento = new JLabel("Descuento");
+		panel.add(lblDescuento);
+		
+		JComboBox<Descuento> cmbDescuento = new JComboBox();
+		cmbDescuento.setEditable(true);
+		panel.add(cmbDescuento);
+
+		try {
+			cmbDescuento.setModel(new DescuentoListModel(Descuento.Select()));
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "No hay descuentos: " + e.getMessage(),
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		JButton butBuscar = new JButton("Buscar"); 
 		butBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 								
@@ -65,6 +79,7 @@ public class IfrCompras extends JInternalFrame {
 							null : txtNombre.getText();
 					Double dImporte = txtImporte.getText().isEmpty() ?
 							null : new Double(Double.parseDouble(txtImporte.getText()));
+					/*Integer iDescuento = cmbDescuento.getSelectedIndex();*/
 				try {	
 					tabResult.setModel(new ComprasTableModel(Compra.Select(sNombre, dImporte, null)));
 				}catch (Exception e) {
@@ -74,21 +89,7 @@ public class IfrCompras extends JInternalFrame {
 			}
 		});
 		
-		JLabel lblDescuento = new JLabel("Descuento");
-		panel.add(lblDescuento);
-		
-		JComboBox<Descuento> cmbDescuento = new JComboBox();
-		cmbDescuento.setEditable(true);
-		panel.add(cmbDescuento);
 		panel.add(butBuscar);
-		
-		try {
-			cmbDescuento.setModel(new DescuentoListModel(Descuento.Select()));
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "No hay descuentos: " + e.getMessage(),
-					"Error", JOptionPane.ERROR_MESSAGE);
-		}
-		
 		
 		tabResult = new JTable();
 		tabResult.addMouseListener(new MouseAdapter() {

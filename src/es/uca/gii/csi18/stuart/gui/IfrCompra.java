@@ -83,13 +83,13 @@ public class IfrCompra extends JInternalFrame {
 				try {
 					Double dImporte = Double.parseDouble(txtImporte.getText());
 					String sNombre = txtNombre.getText();
-					Descuento descuento = (Descuento) cmbDescuento.getSelectedItem(); // el cast no estoy seguro y puede que lanze el throw de abajo
-					
+					Descuento descuento = (Descuento) cmbDescuento.getModel().getSelectedItem(); // el cast no estoy seguro y puede que lanze el throw de abajo
+
 					if(descuento == null)
 						throw new Exception("Selecciona un descuento");
 					
 					if(_compra == null)
-						_compra = Compra.Create(sNombre, dImporte, descuento);
+						_compra = Compra.Create(sNombre, dImporte, descuento);	
 					else{
 						_compra.setNombre(sNombre);
 						_compra.setImporte(dImporte);
@@ -99,7 +99,7 @@ public class IfrCompra extends JInternalFrame {
 					
 				}catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "Existen campos incorrectos: " + e.getMessage(),
-							"Error", JOptionPane.ERROR_MESSAGE);
+							"Error", JOptionPane.ERROR_MESSAGE); 
 				} 
 			}
 		});

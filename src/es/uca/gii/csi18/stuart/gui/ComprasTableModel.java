@@ -13,12 +13,12 @@ public class ComprasTableModel extends javax.swing.table.AbstractTableModel{
 	
 	@Override
 	public int getColumnCount() {
-		return 2;
+		return 3;
 	}
 
 	@Override
 	public int getRowCount() {
-		return _aData.size();
+		return _aData.size(); 
 	}
 
 	@Override
@@ -27,6 +27,7 @@ public class ComprasTableModel extends javax.swing.table.AbstractTableModel{
 		switch(iCol) {
 			case 0: return compra.getNombre();
 			case 1: return compra.getImporte();
+			case 2: return compra.getDescuento();
 		}
 		throw new IllegalStateException("Columna incorrecta.");
 	}

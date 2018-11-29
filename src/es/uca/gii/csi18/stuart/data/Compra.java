@@ -73,7 +73,7 @@ public class Compra{
 	        stmt = (Statement) con.createStatement();
 
 	        stmt.executeUpdate("INSERT INTO compra (nombre, importe, id_descuento) VALUES ("
-	        		+ sNombre + ", " + dImporte + ", " + descuento + ")" );
+	        		+ sNombre + ", " + dImporte + ", " + descuento.getId() + ")" );
 	        
 	        return new Compra(Data.LastId(con));
 	    }
@@ -161,7 +161,7 @@ public class Compra{
 			if(sNombre.contains("%") || sNombre.contains("?"))
 				sQuery += "nombre = " + sNombre + " and ";
 			else
-				sQuery += "nombre LIKE " + sNombre + " and ";
+				sQuery += "nombre LIKE " + sNombre + " and "; 
 		
 		if(sDescuento != null) 
 			if(sDescuento.contains("%") || sDescuento.contains("?"))
