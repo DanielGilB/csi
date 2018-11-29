@@ -1,14 +1,20 @@
 package es.uca.gii.csi18.stuart.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import es.uca.gii.csi18.stuart.data.Compra;
 import es.uca.gii.csi18.stuart.data.Descuento;
 
 public class DescuentoListModel extends javax.swing.AbstractListModel<Descuento>
 	implements javax.swing.ComboBoxModel<Descuento> {
 	
-	private List<Descuento> _aData = null;
+	private List<Descuento> _aData;
 	private Object _oSelectedItem = null;
+	
+	DescuentoListModel(List<Descuento> lDescuento){
+		_aData = lDescuento;
+	}
 	
 	@Override
 	public Object getSelectedItem() {
@@ -18,10 +24,6 @@ public class DescuentoListModel extends javax.swing.AbstractListModel<Descuento>
 	@Override
 	public void setSelectedItem(Object oSelectedItem) {
 		_oSelectedItem = oSelectedItem;
-	}
-
-	DescuentoListModel(List<Descuento> lDescuento){
-		_aData = lDescuento;
 	}
 	
 	@Override

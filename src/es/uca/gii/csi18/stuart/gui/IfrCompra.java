@@ -44,7 +44,7 @@ public class IfrCompra extends JInternalFrame {
 		getContentPane().add(txtNombre);
 		txtNombre.setColumns(10);
 		
-		JLabel lblImporte = new JLabel("Importe");
+		JLabel lblImporte = new JLabel("Importe"); 
 		lblImporte.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblImporte.setBounds(61, 111, 73, 14);
 		getContentPane().add(lblImporte);
@@ -59,7 +59,7 @@ public class IfrCompra extends JInternalFrame {
 		lblDescuento.setBounds(61, 158, 73, 14);
 		getContentPane().add(lblDescuento);
 		
-		JComboBox<Descuento> cmbDescuento = new JComboBox();
+		JComboBox<Descuento> cmbDescuento = new JComboBox<Descuento>();
 		try {
 			cmbDescuento.setModel(new DescuentoListModel(Descuento.Select()));
 		} catch (Exception e) {
@@ -94,7 +94,6 @@ public class IfrCompra extends JInternalFrame {
 						_compra.setNombre(sNombre);
 						_compra.setImporte(dImporte);
 						_compra.setDescuento(descuento);
-						_compra.Update();
 						_compra.Update();
 					}
 					
