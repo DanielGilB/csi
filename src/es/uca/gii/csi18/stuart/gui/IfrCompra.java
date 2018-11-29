@@ -66,14 +66,14 @@ public class IfrCompra extends JInternalFrame {
 			JOptionPane.showMessageDialog(null, "No hay descuentos: " + e.getMessage(),
 					"Error", JOptionPane.ERROR_MESSAGE);
 		}
-		cmbDescuento.setBounds(153, 157, 249, 20);
+		cmbDescuento.setBounds(153, 157, 443, 20);
 		getContentPane().add(cmbDescuento);
 		
 		if(_compra != null) {
 			txtNombre.setText(_compra.getNombre());
 			String dImporte = new Double (_compra.getImporte()).toString();
 			txtImporte.setText(dImporte);
-			cmbDescuento.setSelectedIndex(_compra.getDescuento().getId()); //aquí ponemos el descuento mediante su Id - no estoy seguro habria que probarlo en ejecucion
+			cmbDescuento.setSelectedIndex(_compra.getDescuento().getId() - 2); // bug -> necesita -2
 		}
 		
 		JButton butGuardar = new JButton("Guardar");
@@ -83,7 +83,7 @@ public class IfrCompra extends JInternalFrame {
 				try {
 					Double dImporte = Double.parseDouble(txtImporte.getText());
 					String sNombre = txtNombre.getText();
-					Descuento descuento = (Descuento) cmbDescuento.getModel().getSelectedItem(); // el cast no estoy seguro y puede que lanze el throw de abajo
+					Descuento descuento = (Descuento) cmbDescuento.getModel().getSelectedItem();
 
 					if(descuento == null)
 						throw new Exception("Selecciona un descuento");

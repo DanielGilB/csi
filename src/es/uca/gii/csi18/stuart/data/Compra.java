@@ -139,8 +139,8 @@ public class Compra{
 		if(sDescuento != null) sNombre = Data.String2Sql(sDescuento, true, false);
 	    try {  	
 	    	 con = Data.Connection();
-		     rs = con.createStatement().executeQuery("SELECT id, nombre, importe, id_descuento "
-		    		 + "FROM compra JOIN descuento ON descuento.id = compra.id_descuento " + Where(sNombre, dImporte, sDescuento));
+		     rs = con.createStatement().executeQuery("SELECT Compra.id, Compra.nombre, Compra.importe, Compra.id_descuento "
+		    		 + "FROM compra JOIN descuento ON Descuento.id = Compra.id_descuento " + Where(sNombre, dImporte, sDescuento));
 		     while(rs.next())
 		    	 aCompra.add(new Compra(rs.getInt("id")));
 
@@ -159,18 +159,18 @@ public class Compra{
 
 		if(sNombre != null) 
 			if(sNombre.contains("%") || sNombre.contains("?"))
-				sQuery += "nombre = " + sNombre + " and ";
+				sQuery += "Compra.nombre = " + sNombre + " and ";
 			else
-				sQuery += "nombre LIKE " + sNombre + " and "; 
+				sQuery += "Compra.nombre LIKE " + sNombre + " and "; 
 		
 		if(sDescuento != null) 
 			if(sDescuento.contains("%") || sDescuento.contains("?"))
-				sQuery += "nombre = " + sDescuento + " and ";
+				sQuery += "Compra.nombre = " + sDescuento + " and ";
 			else
-				sQuery += "nombre LIKE " + sDescuento + " and ";
+				sQuery += "Compra.nombre LIKE " + sDescuento + " and ";
 		
 		if(dImporte != null) 
-			sQuery += "importe = " + dImporte + " and ";
+			sQuery += "Compra.importe = " + dImporte + " and ";
 		
 		if(!sQuery.isEmpty()) 
 			sQuery = " WHERE " + sQuery.substring(0, sQuery.length()-5);
