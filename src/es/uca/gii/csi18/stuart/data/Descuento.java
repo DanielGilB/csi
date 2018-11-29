@@ -40,7 +40,9 @@ public class Descuento{
 	
 	public void setNombre(String sNombre) { _sNombre = sNombre; }
 	
-	public String toString() { return _sNombre; }
+	public String toString() {
+		return super.toString() + ":" + _iId + ":" + _sNombre;
+	}
 	
 	public static ArrayList<Descuento> Select() throws Exception {
 		

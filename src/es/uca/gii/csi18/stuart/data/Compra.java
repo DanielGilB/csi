@@ -136,7 +136,7 @@ public class Compra{
 		ResultSet rs = null;
 	    
 		if(sNombre != null) sNombre = Data.String2Sql(sNombre, true, false);
-		if(sDescuento != null) sDescuento = Data.String2Sql(sDescuento, true, false);
+		if(sDescuento != null) sNombre = Data.String2Sql(sDescuento, true, false);
 	    try {  	
 	    	 con = Data.Connection();
 		     rs = con.createStatement().executeQuery("SELECT Compra.id, Compra.nombre, Compra.importe, Compra.id_descuento "
