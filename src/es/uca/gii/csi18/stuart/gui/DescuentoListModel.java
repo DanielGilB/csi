@@ -1,14 +1,16 @@
 package es.uca.gii.csi18.stuart.gui;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import es.uca.gii.csi18.stuart.data.Compra;
 import es.uca.gii.csi18.stuart.data.Descuento;
 
 public class DescuentoListModel extends javax.swing.AbstractListModel<Descuento>
 	implements javax.swing.ComboBoxModel<Descuento> {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<Descuento> _aData;
 	private Object _oSelectedItem = null;
 	

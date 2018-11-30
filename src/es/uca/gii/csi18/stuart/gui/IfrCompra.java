@@ -73,7 +73,7 @@ public class IfrCompra extends JInternalFrame {
 			txtNombre.setText(_compra.getNombre());
 			String dImporte = new Double (_compra.getImporte()).toString();
 			txtImporte.setText(dImporte);
-			cmbDescuento.setSelectedIndex(_compra.getDescuento().getId() - 2); // bug -> necesita -2
+			cmbDescuento.setSelectedIndex(_compra.getDescuento().getId() - 1); // bug -> necesita -2
 		}
 		
 		JButton butGuardar = new JButton("Guardar");

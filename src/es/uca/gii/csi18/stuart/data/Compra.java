@@ -66,7 +66,7 @@ public class Compra{
 		
 		Connection con = null;
 		Statement stmt = null;
-	    sNombre = Data.String2Sql(sNombre, true, false);
+	    sNombre = Data.String2Sql(sNombre, true, false); 
 	     
 	    try {  	
 	        con = Data.Connection();
@@ -104,7 +104,7 @@ public class Compra{
 	    	if (con != null) con.close();
 	    }
 	}
-	
+	 
 	public void Update() throws Exception{
 	    
 		if(_bIsDeleted) 
@@ -136,7 +136,7 @@ public class Compra{
 		ResultSet rs = null;
 	    
 		if(sNombre != null) sNombre = Data.String2Sql(sNombre, true, false);
-		if(sDescuento != null) sNombre = Data.String2Sql(sDescuento, true, false);
+		if(sDescuento != null) sDescuento = Data.String2Sql(sDescuento, true, false);
 	    try {  	
 	    	 con = Data.Connection();
 		     rs = con.createStatement().executeQuery("SELECT Compra.id, Compra.nombre, Compra.importe, Compra.id_descuento "
@@ -165,10 +165,10 @@ public class Compra{
 		
 		if(sDescuento != null) 
 			if(sDescuento.contains("%") || sDescuento.contains("?"))
-				sQuery += "Compra.nombre = " + sDescuento + " and ";
-			else
-				sQuery += "Compra.nombre LIKE " + sDescuento + " and ";
-		
+				sQuery += "Descuento.nombre = " + sDescuento + " and ";
+			else 
+				sQuery += "Descuento.nombre LIKE " + sDescuento + " and ";
+					
 		if(dImporte != null) 
 			sQuery += "Compra.importe = " + dImporte + " and ";
 		

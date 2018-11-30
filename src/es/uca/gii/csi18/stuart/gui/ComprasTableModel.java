@@ -5,6 +5,10 @@ import es.uca.gii.csi18.stuart.data.Compra;
 
 public class ComprasTableModel extends javax.swing.table.AbstractTableModel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Compra> _aData;
 	
 	public ComprasTableModel( ArrayList<Compra> aData) {

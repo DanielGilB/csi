@@ -1,13 +1,9 @@
 package es.uca.gii.csi18.stuart.gui;
 
-import java.awt.EventQueue;
-
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.GridBagLayout;
-import javax.swing.BoxLayout;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,7 +13,6 @@ import es.uca.gii.csi18.stuart.data.Compra;
 import es.uca.gii.csi18.stuart.data.Descuento;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -26,6 +21,10 @@ import java.awt.event.MouseEvent;
 import javax.swing.JComboBox;
 
 public class IfrCompras extends JInternalFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtNombre;
 	private JTextField txtImporte;
 	private JTable tabResult;
@@ -60,7 +59,7 @@ public class IfrCompras extends JInternalFrame {
 		JLabel lblDescuento = new JLabel("Descuento");
 		panel.add(lblDescuento);
 		
-		JComboBox<Descuento> cmbDescuento = new JComboBox();
+		JComboBox<Descuento> cmbDescuento = new JComboBox<Descuento>();
 		cmbDescuento.setEditable(true);
 		panel.add(cmbDescuento);
 
@@ -79,18 +78,18 @@ public class IfrCompras extends JInternalFrame {
 							null : txtNombre.getText();
 					Double dImporte = txtImporte.getText().isEmpty() ?
 							null : new Double(Double.parseDouble(txtImporte.getText()));
-					String sDescuento = cmbDescuento.getSelectedItem().toString() == null ? //peta si es null
+					String sDescuento = cmbDescuento.getSelectedItem().toString().isEmpty() ? //peta si es null
 							null : cmbDescuento.getSelectedItem().toString();
 					
 					System.out.println(cmbDescuento.getSelectedItem().toString());  //descomentar para ver el comportamiento en ejecucion
 				try {	
-					tabResult.setModel(new ComprasTableModel(Compra.Select(sNombre, dImporte, null))); // cuando cambiamos el null por sDescuento peta la query
+					tabResult.setModel(new ComprasTableModel(Compra.Select(sNombre, dImporte, sDescuento))); // cuando cambiamos el null por sDescuento peta la query
 				}catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "Existen campos incorrectos: " + e.getMessage(),
 							"Error", JOptionPane.ERROR_MESSAGE);
 				} 	
 			}
-		});
+		}); 
 		
 		panel.add(butBuscar);
 		
