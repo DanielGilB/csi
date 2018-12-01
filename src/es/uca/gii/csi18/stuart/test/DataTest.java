@@ -28,10 +28,9 @@ class DataTest {
 	        con = Data.Connection();
 	        rs = con.createStatement().executeQuery("SELECT id, nombre, importe FROM compra;");
 	              
-	        while (rs.next()) {	        	
+	        while (rs.next())       	
 	        	System.out.println(rs.getString("id") + " " + rs.getString("nombre") 
 	        		+ " " + rs.getDouble("importe"));
-	        }
 	        
 	        //assertEquals(3, rs.getMetaData().getColumnCount());
 	        //assertEquals(2, con.createStatement().executeQuery("SELECT COUNT(*) FROM compra;"));

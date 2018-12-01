@@ -27,10 +27,10 @@ public class Compra{
 	        rs = con.createStatement().executeQuery("SELECT nombre, importe, id_descuento FROM compra WHERE ID = " + iId);
 	        rs.next();   
 	        
-	        _iId = iId;
 	        _sNombre = rs.getString("nombre");
 	        _dImporte = rs.getDouble("importe");
 	        _descuento = new Descuento(rs.getInt("id_descuento"));
+	        _iId = iId;
 	    }
 	    catch (SQLException ee) { throw ee; }
 	    finally {

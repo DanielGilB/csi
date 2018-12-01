@@ -20,8 +20,8 @@ public class Descuento{
 	        rs = con.createStatement().executeQuery("SELECT nombre FROM descuento WHERE ID = " + iId);
 	        rs.next();   
 	        
-	        _iId = iId;
 	        _sNombre = rs.getString("nombre");
+	        _iId = iId;
 	    }
 	    catch (SQLException ee) { throw ee; }
 	    finally {

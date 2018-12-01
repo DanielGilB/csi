@@ -101,7 +101,7 @@ public class IfrCompras extends JInternalFrame {
 				
 					if(compra != null) {
 						IfrCompra  ifrCompra = new IfrCompra(compra);
-						ifrCompra.setBounds(150, 50, 350, 300);
+						ifrCompra.setBounds(150, 50, 500, 300);
 						pnlParent.add(ifrCompra, 0);
 						ifrCompra.setVisible(true);
 					}

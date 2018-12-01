@@ -66,14 +66,14 @@ public class IfrCompra extends JInternalFrame {
 			JOptionPane.showMessageDialog(null, "No hay descuentos: " + e.getMessage(),
 					"Error", JOptionPane.ERROR_MESSAGE);
 		}
-		cmbDescuento.setBounds(153, 157, 443, 20);
+		cmbDescuento.setBounds(153, 157, 249, 20);
 		getContentPane().add(cmbDescuento);
 		
 		if(_compra != null) {
 			txtNombre.setText(_compra.getNombre());
 			String dImporte = new Double (_compra.getImporte()).toString();
 			txtImporte.setText(dImporte);
-			cmbDescuento.setSelectedIndex(_compra.getDescuento().getId() - 1); // bug -> necesita -2
+			cmbDescuento.setSelectedIndex(_compra.getDescuento().getId() - 1);
 		}
 		
 		JButton butGuardar = new JButton("Guardar");

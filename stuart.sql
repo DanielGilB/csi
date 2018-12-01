@@ -378,9 +378,10 @@ CREATE TABLE IF NOT EXISTS `descuento` (
 --
 
 INSERT INTO `descuento` (`id`, `nombre`) VALUES
+(1, 'sin descuento'),
 (2, 'black friday'),
-(3, 'promocion'),
-(1, 'sin descuento');
+(3, 'promocion');
+
 
 --
 -- Restricciones para tablas volcadas

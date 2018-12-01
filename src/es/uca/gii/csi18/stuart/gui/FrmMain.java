@@ -34,23 +34,14 @@ public class FrmMain {
 
 	/**
 	 * Create the application.
+	 * @throws UnsupportedLookAndFeelException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws ClassNotFoundException 
 	 */
-	public FrmMain() {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException e) {
-			JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e) {
-			JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-		}
+	public FrmMain() throws Exception {
+	
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		initialize();
 	}
 
@@ -74,7 +65,7 @@ public class FrmMain {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				IfrCompra ifrCompra = new IfrCompra(null);
-				ifrCompra.setBounds(150, 50, 350, 300);
+				ifrCompra.setBounds(150, 50, 500, 300);
 				frame.getContentPane().add(ifrCompra);
 				ifrCompra.setVisible(true);
 			}
@@ -88,7 +79,7 @@ public class FrmMain {
 		mitBuscarCompra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				IfrCompras ifrCompras = new IfrCompras(frame);
-				ifrCompras.setBounds(150, 50, 350, 350);
+				ifrCompras.setBounds(150, 50, 600, 350);
 				frame.getContentPane().add(ifrCompras, 0);
 				ifrCompras.setVisible(true);
 			}
