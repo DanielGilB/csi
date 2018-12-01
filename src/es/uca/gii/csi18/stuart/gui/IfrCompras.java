@@ -78,12 +78,10 @@ public class IfrCompras extends JInternalFrame {
 							null : txtNombre.getText();
 					Double dImporte = txtImporte.getText().isEmpty() ?
 							null : new Double(Double.parseDouble(txtImporte.getText()));
-					String sDescuento = cmbDescuento.getSelectedItem().toString().isEmpty() ? //peta si es null
-							null : cmbDescuento.getSelectedItem().toString();
-					
-					System.out.println(cmbDescuento.getSelectedItem().toString());  //descomentar para ver el comportamiento en ejecucion
+					String sDescuento = cmbDescuento.getEditor().getItem().toString();
+
 				try {	
-					tabResult.setModel(new ComprasTableModel(Compra.Select(sNombre, dImporte, sDescuento))); // cuando cambiamos el null por sDescuento peta la query
+					tabResult.setModel(new ComprasTableModel(Compra.Select(sNombre, dImporte, sDescuento)));
 				}catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "Existen campos incorrectos: " + e.getMessage(),
 							"Error", JOptionPane.ERROR_MESSAGE);

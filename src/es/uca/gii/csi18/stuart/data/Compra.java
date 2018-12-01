@@ -136,7 +136,7 @@ public class Compra{
 		ResultSet rs = null;
 	    
 		if(sNombre != null) sNombre = Data.String2Sql(sNombre, true, false);
-		if(sDescuento != null) sDescuento = Data.String2Sql(sDescuento, true, false);
+		if(!sDescuento.isEmpty()) sDescuento = Data.String2Sql(sDescuento, true, false);
 	    try {  	
 	    	 con = Data.Connection();
 		     rs = con.createStatement().executeQuery("SELECT Compra.id, Compra.nombre, Compra.importe, Compra.id_descuento "
@@ -163,7 +163,7 @@ public class Compra{
 			else
 				sQuery += "Compra.nombre LIKE " + sNombre + " and "; 
 		
-		if(sDescuento != null) 
+		if(!sDescuento.isEmpty()) 
 			if(sDescuento.contains("%") || sDescuento.contains("?"))
 				sQuery += "Descuento.nombre = " + sDescuento + " and ";
 			else 
@@ -172,7 +172,7 @@ public class Compra{
 		if(dImporte != null) 
 			sQuery += "Compra.importe = " + dImporte + " and ";
 		
-		if(!sQuery.isEmpty()) 
+		if(!sQuery.isEmpty())  
 			sQuery = " WHERE " + sQuery.substring(0, sQuery.length()-5);
 		
 		return sQuery;
