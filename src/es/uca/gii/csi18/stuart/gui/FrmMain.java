@@ -26,7 +26,8 @@ public class FrmMain {
 					FrmMain window = new FrmMain();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "No se pudo ejecutar la aplicación: " + e.getMessage(),
+							"Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -39,10 +40,14 @@ public class FrmMain {
 	 * @throws InstantiationException 
 	 * @throws ClassNotFoundException 
 	 */
-	public FrmMain() throws Exception {
-	
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		initialize();
+	public FrmMain() {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			initialize();
+		}catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "No se pudo inicializar la aplicación: " + e.getMessage(),
+					"Error", JOptionPane.ERROR_MESSAGE);
+		} 
 	}
 
 	/**
